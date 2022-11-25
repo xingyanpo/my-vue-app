@@ -43,7 +43,13 @@ export default {
 .film-bar-active {
     color: #ff4b00;
     span {
-        padding-bottom: 2px solid #ff4b00;
+        border-bottom: 2px solid #ff4b00;
+        line-height: 49rem;
+        height: 49rem;
     }
+}
+.film-bar {
+    position: sticky; top: 0px;
+    background-color: #FFF;
 }
 </style>

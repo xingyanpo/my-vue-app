@@ -38,7 +38,7 @@ export default {
 <style lang="scss">
 .bottom-bar-active {
     color: red;
-    font-size: 16rem;
+    font-size: 14rem;
 }
 
 footer {
@@ -66,10 +66,10 @@ footer {
             text-align: center;
             line-height: 25rem;
             height: 50rem;
-            font-size: 14rem;
+            font-size: 12rem;
             display: flex;
             flex-direction: column;
-
+            i {font-size: 24px !important;}
         }
     }
 }

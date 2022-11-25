@@ -12,7 +12,7 @@
 import filmSwiper from '@/components/film/FilmSwiper'
 import filmSwiperItem from '@/components/film/FilmSwiperItem'
 import filmHeader from '@/components/film/FilmHeader'
-import axios from 'axios'
+import http from '@/util/http'
 export default {
     components: { filmSwiper, filmSwiperItem,  filmHeader},
     data() {
@@ -21,14 +21,12 @@ export default {
         }
     },
     mounted() {
-        axios({
-            url: 'https://m.maizuo.com/gateway?cityId=310100&pageNum=1&pageSize=10&type=2&k=6221678',
+        http({
+            url: '/gateway?cityId=310100&pageNum=1&pageSize=10&type=2&k=6221678',
             headers: {
-                'X-Client-Info': '{"a":"3000","ch":"1002","v":"5.2.1","e":"16690934605459620692754433","bc":"310100"}',
                 'X-Host': 'mall.film-ticket.film.list'
             }
         }).then(res=>{
-            console.log(res.data.data.films);
             this.filmList = res.data.data.films
         })
     }
