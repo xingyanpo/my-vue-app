@@ -1,17 +1,17 @@
 <template>
-    <div class="box">
-        <li v-for="item in list" :key="item.id" @click="handleToDetail(item.filmId)">
+    <van-list class="box" v-model="loading" :finished="finished" finished-text="我是有底线的" @load="onLoad" :immediate-check="false">
+        <van-cell v-for="item in list" :key="item.id" @click="handleToDetail(item.filmId)">
             <div class="left">
                 <img :src="item.poster" alt="">
             </div>
             <div class="right">
                 <p>{{ item.name }}<span>{{ item.item.name }}</span></p>
                 <p>观众评分：<span>{{ item.grade }}</span></p>
-                <p>主演：{{ item.actors | actotrFilter}}</p>
-                <p>{{item.nation}} | {{ item.runtime }}分钟</p>
+                <p>主演：{{ item.actors | actotrFilter }}</p>
+                <p>{{ item.nation }} | {{ item.runtime }}分钟</p>
             </div>
-        </li>
-    </div>
+        </van-cell>
+    </van-list>
 </template>
 
 <script>
@@ -20,12 +20,16 @@ import Vue from 'vue'
 
 Vue.filter('actotrFilter', (data) => {
     if (!data) return '暂无主演'
-    return data.map(item => item.name).join(' ')    
+    return data.map(item => item.name).join(' ')
 })
 export default {
     data() {
         return {
-            list: []
+            list: [],
+            curren: 1,
+            loading: false,
+            finished: false,
+            total: 0
         }
     },
     mounted() {
@@ -35,8 +39,9 @@ export default {
                 'X-Host': 'mall.film-ticket.film.list'
             }
         }).then(res => {
-                this.list = res.data.data.films
-            })
+            this.list = res.data.data.films
+            this.total = res.data.data.total
+        })
     },
     methods: {
         handleToDetail(id) {
@@ -50,6 +55,23 @@ export default {
                     id
                 }
             })
+        },
+        onLoad () {
+            if (this.list.length === this.total) {
+                this.finished = true
+                return
+            }
+            console.log('加载中...');
+            this.curren ++ 
+            http({
+            url: `/gateway?cityId=310100&pageNum=${this.curren}&pageSize=10&type=1&k=7851840`,
+            headers: {
+                'X-Host': 'mall.film-ticket.film.list'
+            }
+        }).then(res => {
+            this.list = [...this.list,...res.data.data.films]
+            this.loading = false
+        })
         }
     }
 }

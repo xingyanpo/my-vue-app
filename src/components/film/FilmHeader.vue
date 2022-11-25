@@ -51,5 +51,6 @@ export default {
 .film-bar {
     position: sticky; top: 0px;
     background-color: #FFF;
+    z-index: 999;
 }
 </style>
