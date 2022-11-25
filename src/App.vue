@@ -1,32 +1,46 @@
 <template>
-  <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
+  <div class="box">
+    <tabbar :router-link="routerLink"></tabbar>
+    <router-view></router-view>
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+<script>
+import tabbar from '@/components/Tabbar'
+export default {
+  components: {tabbar},
+  data() {
+    return {
+      routerLink: [{
+        link: '/films',
+        name: '电影',
+        icon: 'icon-dianyingpiao'
+      }, {
+        link: '/cinemas',
+        name: '影院',
+        icon: 'icon-wode'
+      },{
+        link: '/center',
+        name: '我的',
+        icon: 'icon-yingyuan'
+      }]
     }
   }
 }
+</script>
+
+<style>
+.bottom-bar-active {
+  color:red;
+}
+.box {
+  width:375rem;
+}
+*{
+  margin: 0;
+  padding: 0;
+};
+html,body {
+  height: 100%;
+};
 </style>
