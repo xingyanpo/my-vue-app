@@ -32,6 +32,9 @@ const routes = [
   {
     path: '/cinemas',
     component: ()=>import('@/views/Cinemas')
+  },{
+    path: '/city',
+    component: ()=>import('@/views/City')
   },
   {
     path: '/center',

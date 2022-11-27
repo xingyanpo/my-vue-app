@@ -1,6 +1,6 @@
 <template>
     <div class="box">
-        <van-nav-bar title="影院" ref="cinemaTabbar">
+        <van-nav-bar title="影院" ref="cinemaTabbar" @click-left="handleLeft">
             <template #left>
                 上海<van-icon name="arrow-down" color="black"/>
             </template>
@@ -61,6 +61,11 @@ export default {
             zoom: true,
             scrollbar: true
         })
+    },
+    methods: {
+        handleLeft() {
+            this.$router.push('/city')
+        }
     }
 }
 </script>
