@@ -3,7 +3,7 @@
     <div v-for="item of cityList" :key="item.type" >
       <van-index-bar :index-list="cityComputed">
         <van-index-anchor :index="item.type" />
-        <van-cell :title="data.name" v-for="data of item.list" :key="data.cityId"/>
+        <van-cell :title="data.name" v-for="data of item.list" :key="data.cityId" @click="handleClick(data)"/>
       </van-index-bar>
     </div>
   </div>
@@ -11,8 +11,10 @@
 
 <script>
 import http from "@/util/http";
+import Obj from '@/util/mixinObj'
 
 export default {
+  mixins: [Obj],
   data() {
     return {
       cityList: [],
@@ -34,6 +36,11 @@ export default {
         });
       });
       this.cityList = cities.filter(item => item.list.length!==0)
+    },
+    handleClick (data) {
+      console.log(data);
+      this.$store.commit('changeCityInfo', data)
+      this.$router.back()
     }
   },
   mounted() {
@@ -44,7 +51,7 @@ export default {
       },
     }).then((res) => {
       this.cityFrmat(res.data.data.cities);
-    });
+    })
   },
   computed: {
     cityComputed () {

@@ -1,27 +1,25 @@
 <template>
-    <div class="box">
-        <van-nav-bar title="影院" ref="cinemaTabbar" @click-left="handleLeft" @click-right="handleRight">
-            <template #left>
-                {{ $store.state.cityName }}
-                <van-icon name="arrow-down" color="black" />
-            </template>
-            <template #right>
-                <van-icon name="search" size="24" color="black" />
-            </template>
-        </van-nav-bar>
-        <div class="wrapper" :style="{ height: height }">
-            <ul>
-                <li v-for="item of $store.state.cinemas" :key="item.cinemaId" class="cinema-item">
-                    <div class="item-left">
-                        <p>{{ item.name }}</p>
-                        <p>{{ item.address }}</p>
-                    </div>
-                    <div class="item-right">
-                        <p>￥{{ item.lowPrice | priceFilter }}起</p>
-                        <p>{{ item.longitude | killmaterFilter }}km</p>
-                    </div>
-                </li>
-            </ul>
+    <div>
+        <div ref="searchbar">
+            <form action="/">
+                <van-search v-model="value" show-action placeholder="请输入搜索关键词" @search="onSearch" @cancel="onCancel" />
+            </form>
+        </div>
+        <div class="box" v-if="value">
+            <div class="wrapper" :style="{ height: height }">
+                <ul>
+                    <li v-for="item of cinemasComputed" :key="item.cinemaId" class="cinema-item">
+                        <div class="item-left">
+                            <p>{{ item.name }}</p>
+                            <p>{{ item.address }}</p>
+                        </div>
+                        <div class="item-right">
+                            <p>￥{{ item.lowPrice | priceFilter }}起</p>
+                            <p>{{ item.longitude | killmaterFilter }}km</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </template>
@@ -29,6 +27,7 @@
 <script>
 import Vue from 'vue'
 import BetterScroll from 'better-scroll'
+import Obj from '@/util/mixinObj'
 
 Vue.filter('priceFilter', (data) => {
     return parseInt(data / 100)
@@ -37,9 +36,11 @@ Vue.filter('killmaterFilter', (data) => {
     return parseInt(data)
 })
 export default {
+    mixins: [Obj],
     data() {
         return {
-            height: '0px'
+            height: '0px',
+            value: ''
         }
     },
     mounted() {
@@ -51,7 +52,7 @@ export default {
             console.log('缓存数据');
         }
 
-        var getScrollHight = document.documentElement.clientHeight - this.$refs.cinemaTabbar.$el.offsetHeight - document.querySelector('footer').offsetHeight + 'px'
+        var getScrollHight = document.documentElement.clientHeight - this.$refs.searchbar.offsetHeight - document.querySelector('footer').offsetHeight + 'px'
         this.height = getScrollHight
     },
     updated() {
@@ -62,12 +63,16 @@ export default {
         })
     },
     methods: {
-        handleLeft() {
-            this.$router.push('/city')
-            this.$store.commit('clearCinemas')
+        onSearch() {
+
         },
-        handleRight() {
-            this.$router.push('/cinemas/search')
+        onCancel() {
+            this.$router.back()
+        }
+    },
+    computed: {
+        cinemasComputed () {
+            return this.$store.state.cinemas.filter(item => item.name.toUpperCase().includes(this.value.toUpperCase()) || item.address.toUpperCase().includes(this.value.toUpperCase()))
         }
     }
 }

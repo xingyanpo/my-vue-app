@@ -1,5 +1,5 @@
 <template>
-    <footer>
+    <footer v-show="$store.state.isShowTabbar">
         <!-- 编程式导航 ， 路由3之前 -->
         <!-- <ul>
       <li><router-link to="/films" active-class="bottom-bar-active">电影</router-link></li>

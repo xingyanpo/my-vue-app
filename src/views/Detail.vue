@@ -43,10 +43,13 @@ import detailSwiper from '@/components/detail/DetailSwiper'
 import detailSwiperItem from '@/components/detail/DetailSwiperItem'
 import detailHeader from '@/components/detail/DetailHeader'
 import { ImagePreview } from 'vant';
+import Obj from '@/util/mixinObj'
+
 Vue.filter('timeFilter', (data) => {
     return moment(data * 1000).format('YYYY-MM-DD')
 })
 export default {
+    mixins: [Obj],
     data() {
         return {
             filmInfo: null,

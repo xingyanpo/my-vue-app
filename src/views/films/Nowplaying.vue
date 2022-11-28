@@ -34,7 +34,7 @@ export default {
     },
     mounted() {
         http({
-            url: '/gateway?cityId=310100&pageNum=1&pageSize=10&type=1&k=7851840',
+            url: `/gateway?cityId=${this.$store.state.cityId}&pageNum=1&pageSize=10&type=1&k=7851840`,
             headers: {
                 'X-Host': 'mall.film-ticket.film.list'
             }
@@ -64,7 +64,7 @@ export default {
             console.log('加载中...');
             this.curren ++ 
             http({
-            url: `/gateway?cityId=310100&pageNum=${this.curren}&pageSize=10&type=1&k=7851840`,
+            url: `/gateway?cityId=${this.$store.state.cityId}&pageNum=${this.curren}&pageSize=10&type=1&k=7851840`,
             headers: {
                 'X-Host': 'mall.film-ticket.film.list'
             }
