@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div ref="searchbar">
+        <div>
             <form action="/">
                 <van-search v-model="value" show-action placeholder="请输入搜索关键词" @search="onSearch" @cancel="onCancel" />
             </form>
@@ -52,7 +52,7 @@ export default {
             console.log('缓存数据');
         }
 
-        var getScrollHight = document.documentElement.clientHeight - this.$refs.searchbar.offsetHeight - document.querySelector('footer').offsetHeight + 'px'
+        var getScrollHight = document.documentElement.clientHeight - document.querySelector('footer').offsetHeight + 'px'
         this.height = getScrollHight
     },
     updated() {
